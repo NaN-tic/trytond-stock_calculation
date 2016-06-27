@@ -24,6 +24,7 @@ class StockMixin(object):
         '''
         pool = Pool()
         Move = pool.get('stock.move')
+        Period = pool.get('stock.period')
         Location = pool.get('stock.location')
         Date = pool.get('ir.date')
         move = Move.__table__()
@@ -33,6 +34,9 @@ class StockMixin(object):
 
         stock_date_end = context.get('stock_date_end', Date.today())
         location_ids = context.get('locations', [])
+
+        # TODO Get Period Cache
+        # PeriodCache = Period.get_cache(grouping)
 
         locations = Location.browse(context.get('locations'))
         if name == 'input_stock':
@@ -91,6 +95,7 @@ class StockMixin(object):
         '''
         pool = Pool()
         Move = pool.get('stock.move')
+        Period = pool.get('stock.period')
         Date = pool.get('ir.date')
         move = Move.__table__()
 
@@ -99,6 +104,9 @@ class StockMixin(object):
 
         stock_date_end = context.get('stock_date_end', Date.today())
         location_ids = context.get('locations', [])
+
+        # TODO Get Period Cache
+        # PeriodCache = Period.get_cache(grouping)
 
         if name == 'input_stock':
             in_locations = move.to_location.in_(location_ids)
