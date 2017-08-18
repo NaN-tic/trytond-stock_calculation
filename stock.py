@@ -24,7 +24,6 @@ class StockMixin(object):
         '''
         pool = Pool()
         Move = pool.get('stock.move')
-        Period = pool.get('stock.period')
         Location = pool.get('stock.location')
         Date = pool.get('ir.date')
         move = Move.__table__()
@@ -59,7 +58,7 @@ class StockMixin(object):
             result[product.id] = 0
             product2lines.setdefault(product.id, []).append(product)
 
-        cursor = transaction.cursor
+        cursor = transaction.connection.cursor
         for in_products in grouped_slice(product2lines.keys()):
             product_ids = reduce_ids(move.product, in_products)
             query = (move
@@ -95,7 +94,6 @@ class StockMixin(object):
         '''
         pool = Pool()
         Move = pool.get('stock.move')
-        Period = pool.get('stock.period')
         Date = pool.get('ir.date')
         move = Move.__table__()
 
@@ -138,11 +136,13 @@ class StockMixin(object):
                             |
                             (move.effective_date == stock_date_end))
                         ),
-                    group_by=(move.product, move.from_location, move.to_location)
+                    group_by=(move.product, move.from_location,
+                                move.to_location)
                     )
                 )
             cursor.execute(*query)
-            for product_id, quantity, from_location, to_location in cursor.fetchall():
+            for (product_id, quantity, from_location,
+                    to_location) in cursor.fetchall():
                 for line in product2lines[product_id]:
                     if name == 'input_stock':
                         result[line.id].update({to_location: quantity})
