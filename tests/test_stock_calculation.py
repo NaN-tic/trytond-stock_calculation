@@ -1,20 +1,14 @@
 #!/usr/bin/env python
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
+# The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
 import unittest
 import trytond.tests.test_tryton
-from trytond.tests.test_tryton import test_view, test_depends
+from trytond.tests.test_tryton import ModuleTestCase
 
 
-class StockCalculationTestCase(unittest.TestCase):
+class StockCalculationTestCase(ModuleTestCase):
     'Test Stock Calculation module'
-
-    def setUp(self):
-        trytond.tests.test_tryton.install_module('stock_calculation')
-
-    def test0006depends(self):
-        'Test depends'
-        test_depends()
+    module = 'stock_calculation'
 
 
 def suite():
