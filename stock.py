@@ -58,7 +58,7 @@ class StockMixin(object):
             result[product.id] = 0
             product2lines.setdefault(product.id, []).append(product)
 
-        cursor = transaction.connection.cursor
+        cursor = transaction.connection.cursor()
         for in_products in grouped_slice(product2lines.keys()):
             product_ids = reduce_ids(move.product, in_products)
             query = (move
