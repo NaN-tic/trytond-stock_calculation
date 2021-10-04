@@ -10,7 +10,7 @@ __all__ = ['StockMixin']
 
 
 class StockMixin(object):
-    '''Mixin class to setup input and output stock quantity fields.'''
+    __slots__ = ()
 
     @classmethod
     def get_input_output_product(cls, products, name):
